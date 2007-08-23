@@ -7,6 +7,7 @@ Group:		Applications/WWW
 Source0:	http://blog.deconcept.com/swfobject/swfobject.zip
 # Source0-md5:	c165bb34978ed008ed2108f2df40ba93
 URL:		http://blog.deconcept.com/swfobject/
+BuildRequires:	sed >= 4.0
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -21,7 +22,8 @@ HTML and XHTML 1.0 documents, and is forward compatible, so it should work for
 years to come.
 
 %prep
-%setup -q -n swfobject1-5/
+%setup -q -n swfobject1-5
+%{__sed} -i -e 's,\r,\n,g' readme.txt
 
 %install
 rm -rf $RPM_BUILD_ROOT
