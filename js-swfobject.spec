@@ -9,6 +9,7 @@ Group:		Applications/WWW
 Source0:	http://swfobject.googlecode.com/files/swfobject_%{ver}.zip
 # Source0-md5:	b535727aee66bac753c7e5722fd38ae2
 URL:		http://code.google.com/p/swfobject/
+BuildRequires:	unzip
 Requires:	webapps
 Requires:	webserver(alias)
 Provides:	swfobject = %{version}-%{release}
