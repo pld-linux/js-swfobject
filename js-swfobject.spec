@@ -1,18 +1,20 @@
+%define		ver	%(echo %{version} | tr . _)
 Summary:	JavaScript Flash Player detection and embed script
 Summary(pl.UTF-8):	Skrypt w JavaScripcie do wykrywania i osadzania Flash Playera
-Name:		swfobject
-Version:	1.5
+Name:		js-swfobject
+Version:	2.1
 Release:	1
 License:	MIT
 Group:		Applications/WWW
-Source0:	http://blog.deconcept.com/swfobject/swfobject.zip
-# Source0-md5:	c165bb34978ed008ed2108f2df40ba93
-URL:		http://blog.deconcept.com/swfobject/
-BuildRequires:	sed >= 4.0
+Source0:	http://swfobject.googlecode.com/files/swfobject_%{ver}.zip
+# Source0-md5:	b535727aee66bac753c7e5722fd38ae2
+URL:		http://code.google.com/p/swfobject/
+Provides:	swfobject = %{version}-%{release}
+Obsoletes:	swfobject
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_appdir	%{_datadir}/%{name}
+%define		_appdir	%{_datadir}/swfobject
 
 %description
 SWFObject is a small JavaScript file used for embedding Adobe Flash
@@ -26,15 +28,14 @@ come.
 %description -l pl.UTF-8
 SWFObject to mały plik w JavaScripcie służący do osadzania treści
 Adobe Flash. Skrypt potrafi wykryć wtyczkę Flash we wszystkich
-popularnych przeglądarkach (na Macu i PC) i jest zaprojektowany do
-jak najłatwiejszego osadzania filmów we Flashu. Jest także przyjazny
-dla silników wyszukiwarek, dobrze się degraduje, może być używany w
-poprawnych dokumentach HTML oraz XHTML 1.0 i jest zgodny w przód,
-więc powinien działać jeszcze przez wiele lat.
+popularnych przeglądarkach (na Macu i PC) i jest zaprojektowany do jak
+najłatwiejszego osadzania filmów we Flashu. Jest także przyjazny dla
+silników wyszukiwarek, dobrze się degraduje, może być używany w
+poprawnych dokumentach HTML oraz XHTML 1.0 i jest zgodny w przód, więc
+powinien działać jeszcze przez wiele lat.
 
 %prep
-%setup -q -n swfobject1-5
-%{__sed} -i -e 's,\r,\n,g' readme.txt
+%setup -q -n swfobject
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -46,5 +47,4 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc readme.txt
 %{_appdir}
