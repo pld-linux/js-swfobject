@@ -2,12 +2,12 @@
 Summary:	JavaScript Flash Player detection and embed script
 Summary(pl.UTF-8):	Skrypt w JavaScripcie do wykrywania i osadzania Flash Playera
 Name:		js-swfobject
-Version:	2.1
-Release:	2
+Version:	2.2
+Release:	1
 License:	MIT
 Group:		Applications/WWW
 Source0:	http://swfobject.googlecode.com/files/swfobject_%{ver}.zip
-# Source0-md5:	b535727aee66bac753c7e5722fd38ae2
+# Source0-md5:	dec4b83b3e73f3f0011a075cd5385b9c
 URL:		http://code.google.com/p/swfobject/
 BuildRequires:	unzip
 Requires:	webapps
@@ -43,7 +43,7 @@ powinien działać jeszcze przez wiele lat.
 %prep
 %setup -q -n %{_webapp}
 
-# Apache1 conf
+# Apache conf
 cat > apache.conf <<'EOF'
 Alias /js/swfobject.js %{_appdir}/swfobject.js
 <Directory %{_appdir}>
