@@ -8,6 +8,8 @@ License:	MIT
 Group:		Applications/WWW
 Source0:	http://swfobject.googlecode.com/files/swfobject_%{ver}.zip
 # Source0-md5:	dec4b83b3e73f3f0011a075cd5385b9c
+Source1:	apache.conf
+Source2:	lighttpd.conf
 URL:		http://code.google.com/p/swfobject/
 BuildRequires:	unzip
 Requires:	webapps
@@ -41,32 +43,18 @@ poprawnych dokumentach HTML oraz XHTML 1.0 i jest zgodny w przód, więc
 powinien działać jeszcze przez wiele lat.
 
 %prep
-%setup -q -n %{_webapp}
-
-# Apache conf
-cat > apache.conf <<'EOF'
-Alias /js/swfobject.js %{_appdir}/swfobject.js
-<Directory %{_appdir}>
-	Allow from all
-</Directory>
-EOF
-
-# lighttpd conf
-cat > lighttpd.conf <<'EOF'
-alias.url += (
-    "/js/swfobject.js" => "%{_appdir}/swfobject.js",
-)
-EOF
+%setup -qc
+mv %{_webapp}/* .
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_appdir}
-cp -a swfobject.js $RPM_BUILD_ROOT%{_appdir}
+cp -p swfobject.js $RPM_BUILD_ROOT%{_appdir}
 
 install -d $RPM_BUILD_ROOT%{_sysconfdir}
-cp -a apache.conf $RPM_BUILD_ROOT%{_sysconfdir}/apache.conf
-cp -a apache.conf $RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf
-cp -a lighttpd.conf $RPM_BUILD_ROOT%{_sysconfdir}/lighttpd.conf
+cp -p %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/apache.conf
+cp -p %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/lighttpd.conf
+cp -p $RPM_BUILD_ROOT%{_sysconfdir}/{apache,httpd}.conf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
