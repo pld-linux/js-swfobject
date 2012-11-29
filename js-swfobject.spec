@@ -12,6 +12,7 @@ Source0:	http://swfobject.googlecode.com/files/swfobject_%{ver}.zip
 Source1:	apache.conf
 Source2:	lighttpd.conf
 URL:		http://code.google.com/p/swfobject/
+BuildRequires:	closure-compiler
 BuildRequires:	unzip
 Requires:	webapps
 Requires:	webserver(alias)
@@ -47,11 +48,25 @@ powinien działać jeszcze przez wiele lat.
 %setup -qc
 mv %{_webapp}/* .
 
+%build
+install -d build
+
+# compress .js
+for js in src/*.js; do
+	out=build/${js#*/}
+%if 0%{!?debug:1}
+	yuicompressor --charset UTF-8 $js -o $out
+	js -C -f $out
+%else
+	cp -p $js $out
+%endif
+done
+
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_appdir}
 
-cp -p %{plugin}.js $RPM_BUILD_ROOT%{_appdir}/%{plugin}-%{version}.min.js
+cp -p build/%{plugin}.js $RPM_BUILD_ROOT%{_appdir}/%{plugin}-%{version}.min.js
 cp -p src/%{plugin}.js $RPM_BUILD_ROOT%{_appdir}/%{plugin}-%{version}.js
 ln -s %{plugin}-%{version}.js $RPM_BUILD_ROOT%{_appdir}/%{plugin}.src.js
 ln -s %{plugin}-%{version}.min.js $RPM_BUILD_ROOT%{_appdir}/%{plugin}.js
