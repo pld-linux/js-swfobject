@@ -13,6 +13,7 @@ Source1:	apache.conf
 Source2:	lighttpd.conf
 URL:		http://code.google.com/p/swfobject/
 BuildRequires:	closure-compiler
+BuildRequires:	js
 BuildRequires:	unzip
 Requires:	webapps
 Requires:	webserver(alias)
@@ -55,7 +56,7 @@ install -d build
 for js in src/*.js; do
 	out=build/${js#*/}
 %if 0%{!?debug:1}
-	yuicompressor --charset UTF-8 $js -o $out
+	closure-compiler --js $js --charset UTF-8 --js_output_file $out
 	js -C -f $out
 %else
 	cp -p $js $out
