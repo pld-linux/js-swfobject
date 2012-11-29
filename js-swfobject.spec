@@ -1,7 +1,8 @@
 %define		ver	%(echo %{version} | tr . _)
+%define		plugin	swfobject
 Summary:	JavaScript Flash Player detection and embed script
 Summary(pl.UTF-8):	Skrypt w JavaScripcie do wykrywania i osadzania Flash Playera
-Name:		js-swfobject
+Name:		js-%{plugin}
 Version:	2.2
 Release:	1
 License:	MIT
@@ -49,7 +50,11 @@ mv %{_webapp}/* .
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_appdir}
-cp -p swfobject.js $RPM_BUILD_ROOT%{_appdir}
+
+cp -p %{plugin}.js $RPM_BUILD_ROOT%{_appdir}/%{plugin}-%{version}.min.js
+cp -p src/%{plugin}.js $RPM_BUILD_ROOT%{_appdir}/%{plugin}-%{version}.js
+ln -s %{plugin}-%{version}.js $RPM_BUILD_ROOT%{_appdir}/%{plugin}.src.js
+ln -s %{plugin}-%{version}.min.js $RPM_BUILD_ROOT%{_appdir}/%{plugin}.js
 
 install -d $RPM_BUILD_ROOT%{_sysconfdir}
 cp -p %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/apache.conf
