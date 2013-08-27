@@ -4,14 +4,13 @@ Summary:	JavaScript Flash Player detection and embed script
 Summary(pl.UTF-8):	Skrypt w JavaScripcie do wykrywania i osadzania Flash Playera
 Name:		js-%{plugin}
 Version:	2.2
-Release:	3
+Release:	2
 License:	MIT
 Group:		Applications/WWW
 Source0:	http://swfobject.googlecode.com/files/swfobject_%{ver}.zip
 # Source0-md5:	dec4b83b3e73f3f0011a075cd5385b9c
 Source1:	apache.conf
 Source2:	lighttpd.conf
-Source3:	httpd.conf
 URL:		http://code.google.com/p/swfobject/
 BuildRequires:	closure-compiler
 BuildRequires:	js
@@ -20,7 +19,6 @@ Requires:	webapps
 Requires:	webserver(alias)
 Provides:	swfobject = %{version}-%{release}
 Obsoletes:	swfobject
-Conflicts:	apache-base < 2.4.0-1
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -77,7 +75,7 @@ ln -s %{plugin}-%{version}.min.js $RPM_BUILD_ROOT%{_appdir}/%{plugin}.js
 install -d $RPM_BUILD_ROOT%{_sysconfdir}
 cp -p %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/apache.conf
 cp -p %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/lighttpd.conf
-cp -p %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf
+cp -p $RPM_BUILD_ROOT%{_sysconfdir}/{apache,httpd}.conf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -88,10 +86,10 @@ rm -rf $RPM_BUILD_ROOT
 %triggerun -- apache1 < 1.3.37-3, apache1-base
 %webapp_unregister apache %{_webapp}
 
-%triggerin -- apache-base
+%triggerin -- apache < 2.2.0, apache-base
 %webapp_register httpd %{_webapp}
 
-%triggerun -- apache-base
+%triggerun -- apache < 2.2.0, apache-base
 %webapp_unregister httpd %{_webapp}
 
 %triggerin -- lighttpd
