@@ -4,7 +4,7 @@ Summary:	JavaScript Flash Player detection and embed script
 Summary(pl.UTF-8):	Skrypt w JavaScripcie do wykrywania i osadzania Flash Playera
 Name:		js-%{plugin}
 Version:	2.2
-Release:	2
+Release:	4
 License:	MIT
 Group:		Applications/WWW
 Source0:	http://swfobject.googlecode.com/files/swfobject_%{ver}.zip
